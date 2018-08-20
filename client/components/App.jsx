@@ -1,5 +1,8 @@
 import React from 'react';
 import {hot} from 'react-hot-loader';
+import NavigationBar from './NavigationBar';
+import Greetings from './Greetings';
+import AppRoutes from '../AppRoutes';
 
 class App extends React.Component {
   constructor(props) {
@@ -8,7 +11,10 @@ class App extends React.Component {
 
   render() { 
     return ( 
-      <h1>Hello from React!</h1>
+      <div className="container">
+        <NavigationBar />
+        <AppRoutes/>
+      </div>
     );
   }
 }
