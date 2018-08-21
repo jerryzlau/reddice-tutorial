@@ -6,7 +6,6 @@ class Greetings extends React.Component {
   }
 
   render() { 
-    console.log('greetings');
     return ( 
       <div className="jumbotron">
         <h1>Hi</h1>
