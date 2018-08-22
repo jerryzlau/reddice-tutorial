@@ -34,5 +34,8 @@ export default {
   },
   resolve: {
     extensions: ['.js', '.jsx', '*']
+  },
+  node: {
+    fs: "empty"
   }
-}
+};
