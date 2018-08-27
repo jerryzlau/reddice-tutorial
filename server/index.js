@@ -7,6 +7,8 @@ import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackConfig from '../webpack.config';
 import webackHotMiddleware from 'webpack-hot-middleware';
+
+// import routes
 import users from './routes/users';
 
 app.use(bodyParser.json());

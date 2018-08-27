@@ -10,6 +10,10 @@ export default function validateInput(data) {
     errors.email = 'Email is required';
   }
 
+  if (!Validator.isEmail(data.email)) {
+    errors.email = 'Input not an Email';
+  }
+
   if (Validator.isEmpty(data.password)) {
     errors.password = 'Password is required';
   }

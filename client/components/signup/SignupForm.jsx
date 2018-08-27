@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import validateInput from '../../../server/shared/validations/signup';
 import TextFieldGroup from '../common/TextFieldGroup';
+import { withRouter } from 'react-router-dom';
 class SignupForm extends Component {
   constructor(props) {
     super(props);
@@ -30,10 +31,15 @@ class SignupForm extends Component {
   _onSubmit(e){
     e.preventDefault();
     if(this._isValid()){
-      console.log('valid');
       this.setState({errors: {}, isLoading: true});
       this.props.userSignupRequest(this.state).then(
-          () => {},
+          () => {
+            this.props.addFlashMessage({
+              type: 'success',
+              text: 'You have signed up successfully. Welcome'
+            });
+            this.props.history.push('/');
+          },
           ({data}) => this.setState({errors: data, isLoading: false})
         );
     }
@@ -69,6 +75,7 @@ class SignupForm extends Component {
         <TextFieldGroup 
           error={errors.username}
           label="Username"
+          type="text"
           onChange={this._onChange}
           value={this.state.username}
           field="username"
@@ -76,6 +83,7 @@ class SignupForm extends Component {
         <TextFieldGroup 
           error={errors.email}
           label="Email"
+          type="text"
           onChange={this._onChange}
           value={this.state.email}
           field="email"
@@ -83,6 +91,7 @@ class SignupForm extends Component {
         <TextFieldGroup 
           error={errors.password}
           label="Password"
+          type="password"
           onChange={this._onChange}
           value={this.state.password}
           field="password"
@@ -90,17 +99,24 @@ class SignupForm extends Component {
         <TextFieldGroup 
           error={errors.passwordConfirmation}
           label="Password Confirmation"
+          type="password"
           onChange={this._onChange}
           value={this.state.passwordConfirmation}
           field="passwordConfirmation"
         />
-        <TextFieldGroup 
-          error={errors.timezone}
-          label="Timezone"
-          onChange={this._onChange}
-          value={this.state.timezone}
-          field="timezone"
-        />
+
+        <div className="form-group">
+          <label htmlFor="" className="control-label">Timezone</label>
+          <select
+            type="text"
+            name="timezone"
+            onChange={this._onChange}
+            value={this.state.timezone}
+            className="form-control">
+            <option value="" disabled>Choose Your Timezone</option>
+            {options}
+          </select>
+        </div>
 
         <div className="form-group">
           <button disabled={this.state.isLoading} className="btn btn-primary btn-lg">
@@ -114,6 +130,7 @@ class SignupForm extends Component {
 
 SignupForm.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
+  addFlashMessage: PropTypes.func.isRequired,
 };
 
-export default SignupForm;
+export default withRouter(SignupForm); // this provides this.props.history as a function in the listed components

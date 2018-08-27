@@ -1,6 +1,5 @@
 import {Route} from 'react-router';
 import React from 'react';
-import App from './components/App';
 import { Component } from 'react';
 import SignupPage from './components/signup/SignupPage';
 import Greetings from './components/Greetings';
