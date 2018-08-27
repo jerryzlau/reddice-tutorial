@@ -3,6 +3,7 @@ import {hot} from 'react-hot-loader';
 import NavigationBar from './NavigationBar';
 import Greetings from './Greetings';
 import AppRoutes from '../AppRoutes';
+import FlashMessagesList from './flash/FlashMessagesList';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class App extends React.Component {
     return ( 
       <div className="container">
         <NavigationBar />
+        <FlashMessagesList />
         <AppRoutes/>
       </div>
     );
