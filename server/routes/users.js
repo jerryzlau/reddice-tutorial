@@ -1,30 +1,56 @@
 import express from 'express';
-import validateInput from '../shared/validations/signup';
+import commonValidations from '../shared/validations/signup';
 import bcrypt from 'bcryptjs';
 import User from '../models/user';
 
 let router = express.Router();
 
-router.post('/', (req, res) => {
-  const {errors, isValid} = validateInput(req.body);
-  if(isValid){
-    const {username, password, timezone, email} = req.body;
-    const password_digest = bcrypt.hashSync(password, 10);
+function validateInput(data, otherValidations){
+  let {errors} = otherValidations(data);
+  return User.query({
+    where: {email: data.email},
+    orWhere: {username: data.username}
+  }).fetch().then(user => {
+    if(user){
+      if(user.get('username') === data.username){
+        errors.username = 'Username is taken';
+      }
 
-    User.forge({
-      username, timezone, email, password_digest
-    }, {hasTimestamps: true}).save()
-      .then(user => {
-        res.json({
-          success: true
-        });
-      })
-      .catch(err => {
-        res.status(500).json({error: err});
-      });
-  }else{
-    res.status(400).json(errors);
-  }
+      if(user.get('email') === data.email){
+        errors.email = 'Email is taken';
+      }
+    }
+
+    return {
+      errors,
+      isValid: errors == {}
+    };
+  });
+}
+
+router.post('/', (req, res) => {
+  validateInput(req.body, commonValidations)
+    .then(({errors, isValid}) => {
+      if(isValid){
+        const {username, password, timezone, email} = req.body;
+        const password_digest = bcrypt.hashSync(password, 10);
+    
+        User.forge({
+          username, timezone, email, password_digest
+        }, {hasTimestamps: true}).save()
+          .then(user => {
+            res.json({
+              success: true
+            });
+          })
+          .catch(err => {
+            res.status(500).json({error: err});
+          });
+      }else{
+        res.status(400).json(errors);
+      }
+    });
+
 });
 
 export default router;

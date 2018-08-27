@@ -11,7 +11,7 @@ export default function validateInput(data) {
   }
 
   if (!Validator.isEmail(data.email)) {
-    errors.email = 'Input not an Email';
+    errors.email = 'Invalid Email';
   }
 
   if (Validator.isEmpty(data.password)) {
