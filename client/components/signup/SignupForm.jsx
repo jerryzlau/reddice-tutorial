@@ -16,11 +16,33 @@ class SignupForm extends Component {
       passwordConfirmation: '',
       timezone: '',
       errors: {},
-      isLoading: false
+      isLoading: false,
+      invalid: false
     };
 
     this._onChange = this._onChange.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
+    this.checkUserExists = this.checkUserExists.bind(this);
+  }
+
+  checkUserExists(e){
+    const field = e.target.name;
+    const val = e.target.value;
+    if(val != ''){
+      this.props.isUserExists(val).then(res => {
+        let errors = this.state.errors;
+        let invalid;
+        if(res.data.user){
+          errors[field] = `This is user with such ${field}`;
+          invalid = true;
+        }else{
+          invalid = false;
+          errors[field] = '';
+        }
+
+        this.setState({errors, invalid});
+      });
+    }
   }
 
   // underscore means private function
@@ -76,6 +98,7 @@ class SignupForm extends Component {
           error={errors.username}
           label="Username"
           type="text"
+          checkUserExists={this.checkUserExists}
           onChange={this._onChange}
           value={this.state.username}
           field="username"
@@ -84,6 +107,7 @@ class SignupForm extends Component {
           error={errors.email}
           label="Email"
           type="text"
+          checkUserExists={this.checkUserExists}
           onChange={this._onChange}
           value={this.state.email}
           field="email"
@@ -119,7 +143,7 @@ class SignupForm extends Component {
         </div>
 
         <div className="form-group">
-          <button disabled={this.state.isLoading} className="btn btn-primary btn-lg">
+          <button disabled={this.state.isLoading || this.state.invalid} className="btn btn-primary btn-lg">
             Sign up
           </button>
         </div>
@@ -131,6 +155,7 @@ class SignupForm extends Component {
 SignupForm.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
   addFlashMessage: PropTypes.func.isRequired,
+  isUserExists: PropTypes.func.isRequired,
 };
 
 export default withRouter(SignupForm); // this provides this.props.history as a function in the listed components
