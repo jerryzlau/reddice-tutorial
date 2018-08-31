@@ -1,29 +1,54 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from "../actions/authActions";
+class NavigationBar extends Component {  
+  logout(e){
+    e.preventDefault();
+    this.props.logout();
+  }
 
-export default () => {
-  return (
-    <nav className="navbar navbar-default">
-      <div className="container-fluid">
-        <div className="navbar-header">
-          <Link to="/" className="nav-bar-brand">Red Dice</Link>
-        </div>
+  render() {
+    const { isAuthenticated } = this.props.auth;
 
-        <div className="collapse navbar-collapse">
-          <ul className="nav navbar-na navbar-right">
-            <li>
-              <Link to="/signup">
-                Sign Up
-              </Link>
-            </li>
-            <li>
-              <Link to="/login">
-                Login
-              </Link>
-            </li>
-          </ul>
+    const userLinks = (
+      <ul className="nav navbar-na navbar-right">
+        <li><a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
+      </ul>
+    );
+
+    const guestLinks = (
+      <ul className="nav navbar-na navbar-right">
+        <li><Link to="/signup">Sign Up</Link></li>
+        <li><Link to="/login">Login</Link></li>
+      </ul>
+    );
+    return (
+      <nav className="navbar navbar-default">
+        <div className="container-fluid">
+          <div className="navbar-header">
+            <Link to="/" className="nav-bar-brand">Red Dice</Link>
+          </div>
+
+          <div className="collapse navbar-collapse">
+            {isAuthenticated ? userLinks : guestLinks}
+          </div>
         </div>
-      </div>
-    </nav>
-  );
+      </nav>
+    );
+  }
+}
+
+NavigationBar.propTypes = {
+  auth: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired
 };
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
+
+export default connect(mapStateToProps, {logout})(NavigationBar);
