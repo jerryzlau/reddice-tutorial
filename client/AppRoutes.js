@@ -4,6 +4,7 @@ import { Component } from 'react';
 import SignupPage from './components/signup/SignupPage';
 import Greetings from './components/Greetings';
 import LoginPage from './components/login/LoginPage';
+import NewEvent from './components/events/NewEventPage';
 
 class AppRoutes extends Component {
   render() {
@@ -12,6 +13,7 @@ class AppRoutes extends Component {
         <Route exact path="/" component={Greetings}/>
         <Route exact path="/signup" component={SignupPage}/>
         <Route exact path="/login" component={LoginPage}/>
+        <Route exact path="/new-event" component={NewEvent}/>
       </div>
     );
   }

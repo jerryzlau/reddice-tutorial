@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Greetings extends React.Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class Greetings extends React.Component {
     return ( 
       <div className="jumbotron">
         <h1>Hi</h1>
+        <Link to="/new-event">New Event</Link>
       </div>
     );
   }

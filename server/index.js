@@ -8,14 +8,11 @@ import webpackMiddleware from 'webpack-dev-middleware';
 import webpackConfig from '../webpack.config';
 import webackHotMiddleware from 'webpack-hot-middleware';
 
-// import routes
-import users from './routes/users';
-import auth from './routes/auth';
-
 app.use(bodyParser.json());
-app.use('/api/users', users);
-app.use('/api/auth', auth);
 
+/**
+ * Webpack configs
+ */
 const compiler = webpack(webpackConfig);
 
 app.use(webpackMiddleware(compiler, {
@@ -28,6 +25,25 @@ app.use(webackHotMiddleware(compiler));
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, './index.html'));
 });
+
+// import routes
+import users from './routes/users';
+import auth from './routes/auth';
+import events from './routes/events';
+import authMiddleware from './middleware/auth';
+
+app.use('/api/users', users);
+app.use('/api/auth', auth);
+
+/** 
+ * Auth Middleware
+ */
+app.use(authMiddleware);
+
+/**
+ * API ROUTES
+ */
+app.use('/api/events', events);
 
 app.listen(3000, () => {
   console.log('Express Server running on localhost:3000');
