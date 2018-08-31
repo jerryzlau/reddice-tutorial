@@ -10,9 +10,11 @@ import webackHotMiddleware from 'webpack-hot-middleware';
 
 // import routes
 import users from './routes/users';
+import auth from './routes/auth';
 
 app.use(bodyParser.json());
 app.use('/api/users', users);
+app.use('/api/auth', auth);
 
 const compiler = webpack(webpackConfig);
 
