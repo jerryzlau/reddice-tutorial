@@ -6,6 +6,9 @@ import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import {createStore, applyMiddleware, compose} from 'redux';
 import rootReducer from './reducers/rootReducer';
+import setAuthorizationToken from './utils/setAuthorizationToken';
+import { setCurrentUser } from './actions/authActions';
+import jwt from 'jsonwebtoken';
 
 const store = createStore(
   rootReducer,
@@ -14,6 +17,11 @@ const store = createStore(
     window.devToolsExtension ? window.devToolsExtension() : f => f // to use chrome redux devtool
   )
 );
+
+if(localStorage.jwtToken){ // keep auth status inside redux store
+  setAuthorizationToken(localStorage.jwtToken);
+  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
+}
 
 render(
   <Provider store={store}>

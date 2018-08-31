@@ -1,4 +1,5 @@
 import Validator from 'validator';
+import isEmpty from 'lodash/isEmpty';
 
 export default function validateInput(data){
   let errors = {};
@@ -12,6 +13,6 @@ export default function validateInput(data){
   }
   return {
     errors,
-    isValid: Object.keys(errors).length === 0 && errors.constructor === Object
+    isValid: isEmpty(errors)
   };
 }
