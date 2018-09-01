@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from "../actions/authActions";
+import { withRouter } from "react-router-dom";
 class NavigationBar extends Component {  
   logout(e){
     e.preventDefault();
@@ -51,4 +52,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {logout})(NavigationBar);
+export default connect(mapStateToProps, {logout})(withRouter(NavigationBar));

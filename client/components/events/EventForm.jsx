@@ -33,6 +33,7 @@ class EventForm extends Component {
         <h1>Create New Game Event</h1>
         <TextFieldGroup
           field="title"
+          label="Event Title"
           value={title}
           error={errors.title}
           onChange={this._onChange}

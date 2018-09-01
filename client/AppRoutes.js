@@ -5,6 +5,7 @@ import SignupPage from './components/signup/SignupPage';
 import Greetings from './components/Greetings';
 import LoginPage from './components/login/LoginPage';
 import NewEvent from './components/events/NewEventPage';
+import requireAuth from './utils/requireAuth';
 
 class AppRoutes extends Component {
   render() {
@@ -13,7 +14,7 @@ class AppRoutes extends Component {
         <Route exact path="/" component={Greetings}/>
         <Route exact path="/signup" component={SignupPage}/>
         <Route exact path="/login" component={LoginPage}/>
-        <Route exact path="/new-event" component={NewEvent}/>
+        <Route exact path="/new-event" component={requireAuth(NewEvent)}/>
       </div>
     );
   }
