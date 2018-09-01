@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import App from './components/App';
-import {HashRouter,Route} from 'react-router-dom';
+import {BrowserRouter,Route} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import {createStore, applyMiddleware, compose} from 'redux';
@@ -25,9 +25,9 @@ if(localStorage.jwtToken){ // keep auth status inside redux store
 
 render(
   <Provider store={store}>
-    <HashRouter>
+    <BrowserRouter>
       <App/>
-    </HashRouter>
+    </BrowserRouter>
   </Provider>
   , document.getElementById('app')
 );
